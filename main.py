@@ -47,13 +47,13 @@ def checkCol(player, obs):
                 return False
     return True
 
-def idleAnimation():
-    global idleSurf, idleIndex
+# def idleAnimation():
+#     global idleSurf, idleIndex
     
-    idleIndex += 0.015
-    if idleIndex >= len(idle):
-        idleIndex = 0
-    idleSurf = idle[int(idleIndex)]
+#     idleIndex += 0.015
+#     if idleIndex >= len(idle):
+#         idleIndex = 0
+#     idleSurf = idle[int(idleIndex)]
 
 pygame.init()
 WIDTH, HEIGHT = 800, 400
@@ -74,13 +74,6 @@ onGround = 325
 
 font = pygame.font.Font("font/SFAtarian.ttf", 50)
 
-idle_R = pygame.image.load("image/idleR.png").convert_alpha()
-idle_L = pygame.image.load("image/idleL.png").convert_alpha()
-idle = [idle_R, idle_L]
-idleIndex = 0
-
-idleSurf = idle[idleIndex]
-idleRect = idleSurf.get_rect(bottomleft= (WIDTH/2 -32, onGround))
 
 # Player.
 playerSurf_R = pygame.image.load("image/playerR.png").convert_alpha()
@@ -119,14 +112,18 @@ playerJump_R = pygame.image.load("jump/jumpR.png").convert_alpha()
 playerJump_L = pygame.image.load("jump/jumpL.png").convert_alpha()
 
 # playerJump = pygame.image.load("image/jumpL.png").convert_alpha()
-playerRect = playerSurf_R.get_rect(bottomleft= (WIDTH/2 -32, onGround))
+playerRect = playerSurf_R.get_rect(midbottom= (WIDTH/2, onGround))
 playerGravity = 0
 
 playerImage = playerSurf_R
 
+idleSurf = playerSurf_R
+idleRect = idleSurf.get_rect(midbottom= (WIDTH/2 - 3, onGround))
+
 # Obstacles.
 
 mobFrame_R1 = pygame.image.load("image/mobR.png").convert_alpha()
+mobFrame_R1.set_alpha(150)
 mobFrame_R2 = pygame.image.load("image/mobR2.png").convert_alpha()
 mobFrames_R = [mobFrame_R1, mobFrame_R2]
 mobFramesIndex_R = 0
@@ -193,6 +190,11 @@ while True:
             pygame.quit()
             exit()
             
+        if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
+        
         # keys = pygame.key.get_pressed()
         
         # right = True
@@ -212,12 +214,13 @@ while True:
         #     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
         #         playerImage = playerSurf_L
             
+        
         if gameActive:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                     if playerRect.bottom == onGround:
                         playerGravity = -20
-                        print("space pressed") 
+                        print("jump") 
         else: 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
@@ -287,6 +290,8 @@ while True:
         # player = pygame.image.load(images[counter])
         # counter = (counter + 1) % len(images)
         
+        idleSurf = playerSurf_R
+        
         playerImage = playerFrames_R[playerFramesIndex_R]
         playerFramesIndex_R = (playerFramesIndex_R + 1) % len(playerFrames_R)
         playerRect.x += 7
@@ -296,6 +301,8 @@ while True:
     elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
         left = True
         right = False
+        
+        idleSurf = playerSurf_L
         
         playerImage = playerFrames_L[playerFramesIndex_L]
         playerFramesIndex_L = (playerFramesIndex_L + 1) % len(playerFrames_L)
@@ -381,7 +388,7 @@ while True:
         introSurf = overFont.render("AVOID THE BICH", True, "black")
         introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 70))
         
-        idleAnimation()
+        # idleAnimation()
         screen.blit(idleSurf, idleRect)
         
         if score == 0:
