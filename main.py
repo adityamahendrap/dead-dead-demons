@@ -115,6 +115,9 @@ playerWalk_L12 = pygame.image.load("walk/L/walk12.png").convert_alpha()
 playerFrames_L = [playerWalk_L1, playerWalk_L2, playerWalk_L3, playerWalk_L4, playerWalk_L5, playerWalk_L6, playerWalk_L7, playerWalk_L8, playerWalk_L9, playerWalk_L10, playerWalk_L11, playerWalk_L12]
 playerFramesIndex_L = 0
 
+playerJump_R = pygame.image.load("jump/jumpR.png").convert_alpha()
+playerJump_L = pygame.image.load("jump/jumpL.png").convert_alpha()
+
 # playerJump = pygame.image.load("image/jumpL.png").convert_alpha()
 playerRect = playerSurf_R.get_rect(bottomleft= (WIDTH/2 -32, onGround))
 playerGravity = 0
@@ -288,6 +291,8 @@ while True:
         playerFramesIndex_R = (playerFramesIndex_R + 1) % len(playerFrames_R)
         playerRect.x += 7
         
+    
+        
     elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
         left = True
         right = False
@@ -295,6 +300,12 @@ while True:
         playerImage = playerFrames_L[playerFramesIndex_L]
         playerFramesIndex_L = (playerFramesIndex_L + 1) % len(playerFrames_L)
         playerRect.x -= 7
+        
+    if playerRect.bottom < onGround:
+        if right:
+            playerImage = playerJump_R
+        if left:
+            playerImage = playerJump_L
     # else:
     #     playerImage = idle_L
         
