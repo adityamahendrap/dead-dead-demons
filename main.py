@@ -48,6 +48,7 @@ def checkCol(player, obs):
                 return False
     return True
 
+pygame.mixer.init(44100, -16, 2, 64)
 pygame.init()
 WIDTH, HEIGHT = 800, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -74,40 +75,40 @@ fontPlay = pygame.font.Font("font/SFAtarian.ttf", 20)
 overFont = pygame.font.Font("font/SFAtarian.ttf", 125)
 
 # Player.
-playerSurf_R = pygame.image.load("image/playerR.png").convert_alpha()
-playerWalk_R1 = pygame.image.load("walk/R/walk1.png").convert_alpha()
-playerWalk_R2 = pygame.image.load("walk/R/walk2.png").convert_alpha()
-playerWalk_R3 = pygame.image.load("walk/R/walk3.png").convert_alpha()
-playerWalk_R4 = pygame.image.load("walk/R/walk4.png").convert_alpha()
-playerWalk_R5 = pygame.image.load("walk/R/walk5.png").convert_alpha()
-playerWalk_R6 = pygame.image.load("walk/R/walk6.png").convert_alpha()
-playerWalk_R7 = pygame.image.load("walk/R/walk7.png").convert_alpha()
-playerWalk_R8 = pygame.image.load("walk/R/walk8.png").convert_alpha()
-playerWalk_R9 = pygame.image.load("walk/R/walk9.png").convert_alpha()
-playerWalk_R10 = pygame.image.load("walk/R/walk10.png").convert_alpha()
-playerWalk_R11 = pygame.image.load("walk/R/walk11.png").convert_alpha()
-playerWalk_R12 = pygame.image.load("walk/R/walk12.png").convert_alpha()
+playerSurf_R = pygame.image.load("sprite/playerR.png").convert_alpha()
+playerWalk_R1 = pygame.image.load("sprite/walk/R/walk1.png").convert_alpha()
+playerWalk_R2 = pygame.image.load("sprite/walk/R/walk2.png").convert_alpha()
+playerWalk_R3 = pygame.image.load("sprite/walk/R/walk3.png").convert_alpha()
+playerWalk_R4 = pygame.image.load("sprite/walk/R/walk4.png").convert_alpha()
+playerWalk_R5 = pygame.image.load("sprite/walk/R/walk5.png").convert_alpha()
+playerWalk_R6 = pygame.image.load("sprite/walk/R/walk6.png").convert_alpha()
+playerWalk_R7 = pygame.image.load("sprite/walk/R/walk7.png").convert_alpha()
+playerWalk_R8 = pygame.image.load("sprite/walk/R/walk8.png").convert_alpha()
+playerWalk_R9 = pygame.image.load("sprite/walk/R/walk9.png").convert_alpha()
+playerWalk_R10 = pygame.image.load("sprite/walk/R/walk10.png").convert_alpha()
+playerWalk_R11 = pygame.image.load("sprite/walk/R/walk11.png").convert_alpha()
+playerWalk_R12 = pygame.image.load("sprite/walk/R/walk12.png").convert_alpha()
 playerFrames_R = [playerWalk_R1, playerWalk_R2, playerWalk_R3, playerWalk_R4, playerWalk_R5, playerWalk_R6, playerWalk_R7, playerWalk_R8, playerWalk_R9, playerWalk_R10, playerWalk_R11, playerWalk_R12]
 playerFramesIndex_R = 0
 
-playerSurf_L = pygame.image.load("image/playerL.png").convert_alpha()
-playerWalk_L1 = pygame.image.load("walk/L/walk1.png").convert_alpha()
-playerWalk_L2 = pygame.image.load("walk/L/walk2.png").convert_alpha()
-playerWalk_L3 = pygame.image.load("walk/L/walk3.png").convert_alpha()
-playerWalk_L4 = pygame.image.load("walk/L/walk4.png").convert_alpha()
-playerWalk_L5 = pygame.image.load("walk/L/walk5.png").convert_alpha()
-playerWalk_L6 = pygame.image.load("walk/L/walk6.png").convert_alpha()
-playerWalk_L7 = pygame.image.load("walk/L/walk7.png").convert_alpha()
-playerWalk_L8 = pygame.image.load("walk/L/walk8.png").convert_alpha()
-playerWalk_L9 = pygame.image.load("walk/L/walk9.png").convert_alpha()
-playerWalk_L10 = pygame.image.load("walk/L/walk10.png").convert_alpha()
-playerWalk_L11 = pygame.image.load("walk/L/walk11.png").convert_alpha()
-playerWalk_L12 = pygame.image.load("walk/L/walk12.png").convert_alpha()
+playerSurf_L = pygame.image.load("sprite/playerL.png").convert_alpha()
+playerWalk_L1 = pygame.image.load("sprite/walk/L/walk1.png").convert_alpha()
+playerWalk_L2 = pygame.image.load("sprite/walk/L/walk2.png").convert_alpha()
+playerWalk_L3 = pygame.image.load("sprite/walk/L/walk3.png").convert_alpha()
+playerWalk_L4 = pygame.image.load("sprite/walk/L/walk4.png").convert_alpha()
+playerWalk_L5 = pygame.image.load("sprite/walk/L/walk5.png").convert_alpha()
+playerWalk_L6 = pygame.image.load("sprite/walk/L/walk6.png").convert_alpha()
+playerWalk_L7 = pygame.image.load("sprite/walk/L/walk7.png").convert_alpha()
+playerWalk_L8 = pygame.image.load("sprite/walk/L/walk8.png").convert_alpha()
+playerWalk_L9 = pygame.image.load("sprite/walk/L/walk9.png").convert_alpha()
+playerWalk_L10 = pygame.image.load("sprite/walk/L/walk10.png").convert_alpha()
+playerWalk_L11 = pygame.image.load("sprite/walk/L/walk11.png").convert_alpha()
+playerWalk_L12 = pygame.image.load("sprite/walk/L/walk12.png").convert_alpha()
 playerFrames_L = [playerWalk_L1, playerWalk_L2, playerWalk_L3, playerWalk_L4, playerWalk_L5, playerWalk_L6, playerWalk_L7, playerWalk_L8, playerWalk_L9, playerWalk_L10, playerWalk_L11, playerWalk_L12]
 playerFramesIndex_L = 0
 
-playerJump_R = pygame.image.load("jump/jumpR.png").convert_alpha()
-playerJump_L = pygame.image.load("jump/jumpL.png").convert_alpha()
+playerJump_R = pygame.image.load("sprite/jump/jumpR.png").convert_alpha()
+playerJump_L = pygame.image.load("sprite/jump/jumpL.png").convert_alpha()
 
 playerRect = playerSurf_R.get_rect(midbottom= (WIDTH/2, onGround))
 playerImage = playerSurf_R
@@ -116,33 +117,33 @@ idleSurf = playerSurf_R
 idleRect = idleSurf.get_rect(midbottom= (WIDTH/2 - 3, onGround))
 
 # Obstacles.
-mobFrame_R1 = pygame.image.load("image/mobR.png").convert_alpha()
+mobFrame_R1 = pygame.image.load("sprite/mobR.png").convert_alpha()
 mobFrame_R1.set_alpha(150)
-mobFrame_R2 = pygame.image.load("image/mobR2.png").convert_alpha()
+mobFrame_R2 = pygame.image.load("sprite/mobR2.png").convert_alpha()
 mobFrame_R2.set_alpha(150)
 mobFrames_R = [mobFrame_R1, mobFrame_R2]
 mobFramesIndex_R = 0
 mobSurf_R = mobFrames_R[mobFramesIndex_R]
 
-mobFrame_L1 = pygame.image.load("image/mobL.png").convert_alpha()
+mobFrame_L1 = pygame.image.load("sprite/mobL.png").convert_alpha()
 mobFrame_L1.set_alpha(150)
-mobFrame_L2 = pygame.image.load("image/mobL2.png").convert_alpha()
+mobFrame_L2 = pygame.image.load("sprite/mobL2.png").convert_alpha()
 mobFrame_L2.set_alpha(150)
 mobFrames_L = [mobFrame_L1, mobFrame_L2]
 mobFramesIndex_L = 0
 mobSurf_L = mobFrames_L[mobFramesIndex_L]
 
-flyFrame_R1 = pygame.image.load("image/flyR.png").convert_alpha()
+flyFrame_R1 = pygame.image.load("sprite/flyR.png").convert_alpha()
 flyFrame_R1.set_alpha(150)
-flyFrame_R2 = pygame.image.load("image/flyR2.png").convert_alpha()
+flyFrame_R2 = pygame.image.load("sprite/flyR2.png").convert_alpha()
 flyFrame_R2.set_alpha(150)
 flyFrames_R = [flyFrame_R1, flyFrame_R2]
 flyFramesIndex_R = 0
 flySurf_R = flyFrames_R[flyFramesIndex_R]
 
-flyFrame_L1 = pygame.image.load("image/flyL.png").convert_alpha()
+flyFrame_L1 = pygame.image.load("sprite/flyL.png").convert_alpha()
 flyFrame_L1.set_alpha(150)
-flyFrame_L2 = pygame.image.load("image/flyL2.png").convert_alpha()
+flyFrame_L2 = pygame.image.load("sprite/flyL2.png").convert_alpha()
 flyFrame_L2.set_alpha(150)
 flyFrames_L = [flyFrame_L1, flyFrame_L2]
 flyFramesIndex_L = 0
@@ -151,6 +152,10 @@ flySurf_L = flyFrames_L[flyFramesIndex_L]
 obsRectList = []
 obsRectListL = []
 
+# Sound.
+jumpSound = pygame.mixer.Sound("sound/jump.mp3")
+music = pygame.mixer.music.load("sound/forest.mp3")
+pygame.mixer.music.play(-1)
 # Timer.
 obsTimer = pygame.USEREVENT + 1
 pygame.time.set_timer(obsTimer, randint(1400, 2500))
@@ -186,11 +191,13 @@ while True:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                     if playerRect.bottom == onGround:
+                        jumpSound.play()
                         playerGravity = -20
+                        
         else: 
             # Score Start Counter.
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     gameActive = True
                     startTime = int(pygame.time.get_ticks()/100)
                     
@@ -253,6 +260,7 @@ while True:
         playerFramesIndex_R = (playerFramesIndex_R + 1) % len(playerFrames_R)
         # Speed Player Movement to Right
         playerRect.x += 7
+        
     elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
         # Set Direction Bool
         left = True
@@ -326,7 +334,7 @@ while True:
         introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 20))
         
         # Set How to Start Game 
-        playSurf = fontPlay.render("press SPACE to play", True, "white")
+        playSurf = fontPlay.render("press ENTER to play", True, "white")
         playSurf.set_alpha(150)
         playRect = playSurf.get_rect(center= (WIDTH/2, HEIGHT - 30))
         
@@ -341,7 +349,7 @@ while True:
         scoreMsgRect = scoreMsgSurf.get_rect(center= (WIDTH/2, 40))
         
         # Set How to Play Again.
-        playSurf2 = fontPlay.render("press SPACE to play again", True, "white")
+        playSurf2 = fontPlay.render("press ENTER to play again", True, "white")
         playSurf2.set_alpha(150)
         playRect2 = playSurf2.get_rect(center= (WIDTH/2, HEIGHT - 30))
         
