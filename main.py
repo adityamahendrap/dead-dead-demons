@@ -68,8 +68,10 @@ right = True
 walkCount = 0
 
 # Background.
-skySurf = pygame.image.load("image/sky.png").convert()
-groundSurf = pygame.image.load("image/ground.png").convert()
+skySurf = pygame.image.load("bg/background.png").convert()
+skySurf = pygame.transform.scale(skySurf, (928 *1.25, 431 *1.25))
+groundSurf = pygame.image.load("bg/floor1.png").convert_alpha()
+groundSurf2 = pygame.image.load("bg/floor2.png").convert_alpha()
 onGround = 325
 
 font = pygame.font.Font("font/SFAtarian.ttf", 50)
@@ -125,6 +127,7 @@ idleRect = idleSurf.get_rect(midbottom= (WIDTH/2 - 3, onGround))
 mobFrame_R1 = pygame.image.load("image/mobR.png").convert_alpha()
 mobFrame_R1.set_alpha(150)
 mobFrame_R2 = pygame.image.load("image/mobR2.png").convert_alpha()
+mobFrame_R2.set_alpha(150)
 mobFrames_R = [mobFrame_R1, mobFrame_R2]
 mobFramesIndex_R = 0
 mobSurf_R = mobFrames_R[mobFramesIndex_R]
@@ -133,7 +136,9 @@ mobSurf_R = mobFrames_R[mobFramesIndex_R]
 # mobRect = mobSurf.get_rect(bottomleft= (1000, onGround - 10)) 
 
 mobFrame_L1 = pygame.image.load("image/mobL.png").convert_alpha()
+mobFrame_L1.set_alpha(150)
 mobFrame_L2 = pygame.image.load("image/mobL2.png").convert_alpha()
+mobFrame_L2.set_alpha(150)
 mobFrames_L = [mobFrame_L1, mobFrame_L2]
 mobFramesIndex_L = 0
 mobSurf_L = mobFrames_L[mobFramesIndex_L]
@@ -142,7 +147,9 @@ mobSurf_L = mobFrames_L[mobFramesIndex_L]
 # mobLRect = mobLSurf.get_rect(bottomleft= (-200, onGround - 10)) 
 
 flyFrame_R1 = pygame.image.load("image/flyR.png").convert_alpha()
+flyFrame_R1.set_alpha(150)
 flyFrame_R2 = pygame.image.load("image/flyR2.png").convert_alpha()
+flyFrame_R2.set_alpha(150)
 flyFrames_R = [flyFrame_R1, flyFrame_R2]
 flyFramesIndex_R = 0
 flySurf_R = flyFrames_R[flyFramesIndex_R]
@@ -151,7 +158,9 @@ flySurf_R = flyFrames_R[flyFramesIndex_R]
 # flyRect = flySurf.get_rect(bottomleft= (1000, 150))
 
 flyFrame_L1 = pygame.image.load("image/flyL.png").convert_alpha()
+flyFrame_L1.set_alpha(150)
 flyFrame_L2 = pygame.image.load("image/flyL2.png").convert_alpha()
+flyFrame_L2.set_alpha(150)
 flyFrames_L = [flyFrame_L1, flyFrame_L2]
 flyFramesIndex_L = 0
 flySurf_L = flyFrames_L[flyFramesIndex_L]
@@ -338,12 +347,15 @@ while True:
         #     gameActive = False
     
         # DRAW.
-        screen.blit(skySurf, (0, 0))
-        screen.blit(groundSurf, (0, onGround))
+        screen.blit(skySurf, (0, -140))
+        screen.blit(playerImage, playerRect)
+        screen.blit(groundSurf, (0, onGround - 25))
+        screen.blit(groundSurf2, (0, onGround - 10))
+        screen.blit(groundSurf2, (0, onGround + 20))
         
 
         
-        screen.blit(playerImage, playerRect)
+        
         # if right:
         #     screen.blit(playerFrames_R, playerRect)
         # elif left:
@@ -370,8 +382,11 @@ while True:
 
     else:
         
-        screen.blit(skySurf, (0, 0))
-        screen.blit(groundSurf, (0, onGround))
+        screen.blit(skySurf, (0, -140))
+        screen.blit(idleSurf, idleRect)
+        screen.blit(groundSurf, (0, onGround - 25))
+        screen.blit(groundSurf2, (0, onGround - 10))
+        screen.blit(groundSurf2, (0, onGround + 20))
         
         obsRectList.clear()
         obsRectListL.clear()
@@ -388,8 +403,7 @@ while True:
         introSurf = overFont.render("AVOID THE BICH", True, "black")
         introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 70))
         
-        # idleAnimation()
-        screen.blit(idleSurf, idleRect)
+        
         
         if score == 0:
             screen.blit(introSurf, introRect)
