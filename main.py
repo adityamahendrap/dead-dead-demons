@@ -3,8 +3,9 @@ from random import randint
 
 def displayScore():
     currentTime = int(pygame.time.get_ticks()/100) - startTime
-    scoreSurf = font.render(f'{currentTime}', True, "black")
-    scoreRect = scoreSurf.get_rect(topleft = (0, 0))
+    scoreSurf = font.render(f'{currentTime}', True, "white")
+    scoreSurf.set_alpha(150)
+    scoreRect = scoreSurf.get_rect(topleft = (5, 5))
     screen.blit(scoreSurf, scoreRect)
     return currentTime
 
@@ -47,18 +48,10 @@ def checkCol(player, obs):
                 return False
     return True
 
-# def idleAnimation():
-#     global idleSurf, idleIndex
-    
-#     idleIndex += 0.015
-#     if idleIndex >= len(idle):
-#         idleIndex = 0
-#     idleSurf = idle[int(idleIndex)]
-
 pygame.init()
 WIDTH, HEIGHT = 800, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("image")
+pygame.display.set_caption("Dead Dead Demons")
 clock = pygame.time.Clock()
 gameActive = False
 startTime = 0
@@ -66,16 +59,19 @@ score = 0
 left = False
 right = True
 walkCount = 0
+onGround = 325
+playerGravity = 0
 
-# Background.
+# Environment.
 skySurf = pygame.image.load("bg/background.png").convert()
 skySurf = pygame.transform.scale(skySurf, (928 *1.25, 431 *1.25))
 groundSurf = pygame.image.load("bg/floor1.png").convert_alpha()
 groundSurf2 = pygame.image.load("bg/floor2.png").convert_alpha()
-onGround = 325
 
-font = pygame.font.Font("font/SFAtarian.ttf", 50)
-
+# Font.
+font = pygame.font.Font("font/SFAtarian.ttf", 35)
+fontPlay = pygame.font.Font("font/SFAtarian.ttf", 20)
+overFont = pygame.font.Font("font/SFAtarian.ttf", 125)
 
 # Player.
 playerSurf_R = pygame.image.load("image/playerR.png").convert_alpha()
@@ -113,17 +109,13 @@ playerFramesIndex_L = 0
 playerJump_R = pygame.image.load("jump/jumpR.png").convert_alpha()
 playerJump_L = pygame.image.load("jump/jumpL.png").convert_alpha()
 
-# playerJump = pygame.image.load("image/jumpL.png").convert_alpha()
 playerRect = playerSurf_R.get_rect(midbottom= (WIDTH/2, onGround))
-playerGravity = 0
-
 playerImage = playerSurf_R
 
 idleSurf = playerSurf_R
 idleRect = idleSurf.get_rect(midbottom= (WIDTH/2 - 3, onGround))
 
 # Obstacles.
-
 mobFrame_R1 = pygame.image.load("image/mobR.png").convert_alpha()
 mobFrame_R1.set_alpha(150)
 mobFrame_R2 = pygame.image.load("image/mobR2.png").convert_alpha()
@@ -131,9 +123,6 @@ mobFrame_R2.set_alpha(150)
 mobFrames_R = [mobFrame_R1, mobFrame_R2]
 mobFramesIndex_R = 0
 mobSurf_R = mobFrames_R[mobFramesIndex_R]
-
-# mobSurf = pygame.image.load("image/mobR.png").convert_alpha()
-# mobRect = mobSurf.get_rect(bottomleft= (1000, onGround - 10)) 
 
 mobFrame_L1 = pygame.image.load("image/mobL.png").convert_alpha()
 mobFrame_L1.set_alpha(150)
@@ -143,9 +132,6 @@ mobFrames_L = [mobFrame_L1, mobFrame_L2]
 mobFramesIndex_L = 0
 mobSurf_L = mobFrames_L[mobFramesIndex_L]
 
-# mobLSurf = pygame.image.load("image/mobL.png").convert_alpha()
-# mobLRect = mobLSurf.get_rect(bottomleft= (-200, onGround - 10)) 
-
 flyFrame_R1 = pygame.image.load("image/flyR.png").convert_alpha()
 flyFrame_R1.set_alpha(150)
 flyFrame_R2 = pygame.image.load("image/flyR2.png").convert_alpha()
@@ -154,9 +140,6 @@ flyFrames_R = [flyFrame_R1, flyFrame_R2]
 flyFramesIndex_R = 0
 flySurf_R = flyFrames_R[flyFramesIndex_R]
 
-# flySurf = pygame.image.load("image/flyR.png").convert_alpha()
-# flyRect = flySurf.get_rect(bottomleft= (1000, 150))
-
 flyFrame_L1 = pygame.image.load("image/flyL.png").convert_alpha()
 flyFrame_L1.set_alpha(150)
 flyFrame_L2 = pygame.image.load("image/flyL2.png").convert_alpha()
@@ -164,9 +147,6 @@ flyFrame_L2.set_alpha(150)
 flyFrames_L = [flyFrame_L1, flyFrame_L2]
 flyFramesIndex_L = 0
 flySurf_L = flyFrames_L[flyFramesIndex_L]
-
-# flyLSurf = pygame.image.load("image/flyL.png").convert_alpha()
-# flyLRect = flyLSurf.get_rect(bottomleft= (-200, 150))
 
 obsRectList = []
 obsRectListL = []
@@ -187,10 +167,7 @@ pygame.time.set_timer(mobAnimationTimer, randint(1000, 2000))
 mobAnimationTimer2 = pygame.USEREVENT + 5
 pygame.time.set_timer(mobAnimationTimer2, randint(1000, 2000))
 
-
-
-
-# GAME LOOP.
+# Game Loop.
 while True:
     screen.fill((0, 0, 0))
     
@@ -200,216 +177,183 @@ while True:
             exit()
             
         if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    exit()
-        
-        # keys = pygame.key.get_pressed()
-        
-        # right = True
-        
-        # if event.type == playerAnimationTimer:
-        #     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        #         playerFramesIndex_R = 1
-        #         playerImage = playerFrames_R[playerFramesIndex_R]
-        #         # playerImage = playerSurf_R
-                
-        #     if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        #         playerImage = playerSurf_L
-        
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-        #         playerImage = playerSurf_R
-        #     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-        #         playerImage = playerSurf_L
-            
-        
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                exit()
+
         if gameActive:
+            # Set Player Jump
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                     if playerRect.bottom == onGround:
                         playerGravity = -20
-                        print("jump") 
         else: 
+            # Score Start Counter.
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     gameActive = True
                     startTime = int(pygame.time.get_ticks()/100)
                     
-                    
-                    
         if gameActive:
+            # Obstacle Spawn Random Position.
             if event.type == obsTimer:
                 if randint(0, 2):
                     obsRectList.append(mobSurf_R.get_rect(bottomleft= (randint(800, 1100), onGround - 10)))
                 else:
                     obsRectList.append(flySurf_R.get_rect(bottomleft= (randint(900, 1100), 150)))
-                    
                 if randint(0, 2):
                     obsRectListL.append(mobSurf_L.get_rect(bottomleft= (randint(-300, -100), onGround - 10)))
                 else:
                     obsRectListL.append(flySurf_L.get_rect(bottomleft= (randint(-300, -100), 150)))
-                    
+            # Right Fly Obstacle Animation
             if event.type == flyAnimationTimer:
-                # Right Fly Animation
                 if flyFramesIndex_R == 0:
                     flyFramesIndex_R = 1
                 else:
                     flyFramesIndex_R = 0
                 flySurf_R = flyFrames_R[flyFramesIndex_R]
-                
+            # Left Fly Obstacle Animation.
             if event.type == flyAnimationTimer2:
-                # Left Fly Animation
                 if flyFramesIndex_L == 0:
                     flyFramesIndex_L = 1
                 else:
                     flyFramesIndex_L = 0
                 flySurf_L = flyFrames_L[flyFramesIndex_L]
-                
+            # Right Mob Obstacle Animation
             if event.type == mobAnimationTimer:
-                # Right Mob Animation
                 if mobFramesIndex_R == 0:
                     mobFramesIndex_R = 1
                 else:
                     mobFramesIndex_R = 0
                 mobSurf_R = mobFrames_R[mobFramesIndex_R]
-            
+            # Left Mob Obstacle Animation
             if event.type == mobAnimationTimer2:
-                # Left Mob Animation
                 if mobFramesIndex_L == 0:
                     mobFramesIndex_L = 1
                 else:
                     mobFramesIndex_L = 0
                 mobSurf_L = mobFrames_L[mobFramesIndex_L]
-            
-            
-# Control.
 
     keys = pygame.key.get_pressed()
-    
+
+    # Set Player Idle Frame GameActive = 1.
     if right:
         playerImage = playerSurf_R
     elif left:
         playerImage = playerSurf_L
     
     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        
+        # Set Direction Bool
         right = True
         left = False
-        # player = pygame.image.load(images[counter])
-        # counter = (counter + 1) % len(images)
-        
+        # Set Player Idle Frame GameActive = 0.
         idleSurf = playerSurf_R
-        
+        # Player Movement to Right Animation.
         playerImage = playerFrames_R[playerFramesIndex_R]
         playerFramesIndex_R = (playerFramesIndex_R + 1) % len(playerFrames_R)
+        # Speed Player Movement to Right
         playerRect.x += 7
-        
-    
-        
     elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        # Set Direction Bool
         left = True
         right = False
-        
+        # Set Player Idle Frame GameActive = 0.
         idleSurf = playerSurf_L
-        
+        # Player Movement to Left Animation.
         playerImage = playerFrames_L[playerFramesIndex_L]
         playerFramesIndex_L = (playerFramesIndex_L + 1) % len(playerFrames_L)
         playerRect.x -= 7
         
+    # Set Player Jamp Frame.
     if playerRect.bottom < onGround:
         if right:
             playerImage = playerJump_R
         if left:
             playerImage = playerJump_L
-    # else:
-    #     playerImage = idle_L
-        
-    
-        
+            
+    # Cancel Player Offset from Screen
     if playerRect.left < 0:
         playerRect.left = 0
     if playerRect.right > WIDTH:
         playerRect.right = WIDTH
 
-# UPDATE.
     if gameActive:
-        
-        # Gravity.
+        # Apply Gravity.
         playerGravity += 1
         playerRect.y += playerGravity
+        # Set Player Landing
         if playerRect.bottom >= onGround:
             playerRect.bottom = onGround
-        
-        # Colliision.
-        # if mobRect.colliderect(playerRect):
-        #     print("z")
-        #     gameActive = False
     
-        # DRAW.
+        # Draw Player & Environment GameActive = 1.
         screen.blit(skySurf, (0, -140))
         screen.blit(playerImage, playerRect)
         screen.blit(groundSurf, (0, onGround - 25))
         screen.blit(groundSurf2, (0, onGround - 10))
         screen.blit(groundSurf2, (0, onGround + 20))
         
-
-        
-        
-        # if right:
-        #     screen.blit(playerFrames_R, playerRect)
-        # elif left:
-        #     screen.blit(playerSurf_L, playerRect)
-        # else:
-        #     screen.blit(idle_R, playerRect)
-        
+        # Spawm Obstacle.
         obsRectList = obsMov(obsRectList, onGround)
         obsRectListL = obsMovL(obsRectListL, onGround)
         
-        # screen.blit(mobSurf, mobRect)
-        # mobRect.left += -5
-        # if mobRect.left < -72:
-        #     mobRect.left = WIDTH
-        
-        # screen.blit(flySurf, flyRect)
-        
+        # Player & Obstacle Collision Check
         if gameActive:
             gameActive = checkCol(playerRect, obsRectList)
         if gameActive:
             gameActive = checkCol(playerRect, obsRectListL)
         
+        # Display Score Counter
         score = displayScore()
-
     else:
-        
+        # Draw Player & Environment GameActive = 0.
         screen.blit(skySurf, (0, -140))
         screen.blit(idleSurf, idleRect)
         screen.blit(groundSurf, (0, onGround - 25))
         screen.blit(groundSurf2, (0, onGround - 10))
         screen.blit(groundSurf2, (0, onGround + 20))
         
+        # Disable Obstacle.
         obsRectList.clear()
         obsRectListL.clear()
         
+        # Set Default Player Position.
         playerRect.bottomleft = (WIDTH/2 - 24, onGround)
         playerGravity = 0
         
-        overFont = pygame.font.Font("font/SFAtarian.ttf", 125)
-        overSurface = overFont.render("GAME OVER", True, "black")
-        overRect = overSurface.get_rect(center= (WIDTH/2, HEIGHT/2 - 70))
-        scoreMsgSurf = font.render(f'Your Score : {score}', True, "black")
-        scoreMsgRect = scoreMsgSurf.get_rect(center= (WIDTH/2, HEIGHT/2))
+        # Set Intro Text.
+        introSurf = overFont.render("D'D DEMONS", True, "white")
+        introSurf.set_alpha(150)
+        introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 20))
         
-        introSurf = overFont.render("AVOID THE BICH", True, "black")
-        introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 70))
+        # Set How to Start Game 
+        playSurf = fontPlay.render("press SPACE to play", True, "white")
+        playSurf.set_alpha(150)
+        playRect = playSurf.get_rect(center= (WIDTH/2, HEIGHT - 30))
         
+        # Set Text When Game Over.
+        overSurf = overFont.render("GAME OVER", True, "white")
+        overSurf.set_alpha(150)
+        overRect = overSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 20))
         
+        # Set Show Final Score.
+        scoreMsgSurf = font.render(f'your score : {score}', True, "white")
+        scoreMsgSurf.set_alpha(150)
+        scoreMsgRect = scoreMsgSurf.get_rect(center= (WIDTH/2, 40))
+        
+        # Set How to Play Again.
+        playSurf2 = fontPlay.render("press SPACE to play again", True, "white")
+        playSurf2.set_alpha(150)
+        playRect2 = playSurf2.get_rect(center= (WIDTH/2, HEIGHT - 30))
         
         if score == 0:
+            # Display when Intro
             screen.blit(introSurf, introRect)
+            screen.blit(playSurf, playRect)
         else:
-            screen.blit(overSurface, overRect)
+            # Display when Game Over
+            screen.blit(overSurf, overRect)
             screen.blit(scoreMsgSurf, scoreMsgRect)
-    
+            screen.blit(playSurf2, playRect2)
+            
     pygame.display.update()
     clock.tick(60)
