@@ -5,6 +5,7 @@ Dead Dead Demons is a simple endlees avoiding enemy game. <br>
 This project was created using:
 - [Python](https://www.python.org) 3.10.8
 - [Pygame](https://www.pygame.org) 2.1.2
+- [Visual Studio Code](https://code.visualstudio.com/)
 
 How to Control:
 - use `A` or `LEFT` to move left
