@@ -1,7 +1,5 @@
-# Dead Dead Demons
-Dead Dead Demons is a simple endlees avoiding enemy game. <br>
-`It's only for personal learning. If resource of this project infringes the copyright, please let me know.`
-
+# Ghost Yeeter
+Simple game created with Oygame module.
 - [Python](https://www.python.org) 3.10.8
 - [Pygame](https://www.pygame.org) 2.1.2
 
@@ -14,4 +12,5 @@ How to Play:
 
 ## Credits
 Sprites by [DarkSB24](https://www.spriters-resource.com/custom_edited/mariocustoms/sheet/17687/) <br>
-Background by [edermunizz](https://edermunizz.itch.io/free-pixel-art-forest)
+Background by [edermunizz](https://edermunizz.itch.io/free-pixel-art-forest) <br>
+`It's only for personal learning. If resource of this project infringes the copyright, please let me know.`
