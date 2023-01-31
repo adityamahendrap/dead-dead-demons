@@ -1,5 +1,5 @@
 # Ghost Yeeter
-Simple game created with Oygame module.
+Simple game created with Pygame module.
 - [Python](https://www.python.org) 3.10.8
 - [Pygame](https://www.pygame.org) 2.1.2
 
