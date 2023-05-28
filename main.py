@@ -13,14 +13,11 @@ def obsMov(obsList, onGround):
     if obsList:
         for obsRect in obsList:
             obsRect.x -= 6
-            
             if obsRect.bottom == onGround - 10:
                 screen.blit(mobSurf_R, obsRect)
             else:
                 screen.blit(flySurf_R, obsRect)
-            
         obsList = [obs for obs in obsList if obs.x > -100]
-        
         return obsList
     else:
         return[]
@@ -29,14 +26,11 @@ def obsMovL(obsList, onGround):
     if obsList:
         for obsRect in obsList:
             obsRect.x += 6
-            
             if obsRect.bottom == onGround - 10:
                 screen.blit(mobSurf_L, obsRect)
             else:
                 screen.blit(flySurf_L, obsRect)
-            
         obsList = [obs for obs in obsList if obs.x < 900]
-        
         return obsList
     else:
         return[]
@@ -81,18 +75,15 @@ if f.readline() is not '':
 else: highScore = 0
 f.close()
 
-# Environment.
 skySurf = py.image.load("assets/img/bg/background.png").convert()
 skySurf = py.transform.scale(skySurf, (928 *1.25, 431 *1.25))
 groundSurf = py.image.load("assets/img/bg/floor1.png").convert_alpha()
 groundSurf2 = py.image.load("assets/img/bg/floor2.png").convert_alpha()
 
-# Font.
 font = py.font.Font("assets/font/SFAtarian.ttf", 35)
 fontPlay = py.font.Font("assets/font/SFAtarian.ttf", 20)
 overFont = py.font.Font("assets/font/SFAtarian.ttf", 125)
 
-# Player.
 playerSurf_R = py.image.load("assets/img/sprite/playerR.png").convert_alpha()
 playerWalk_R1 = py.image.load("assets/img/sprite/walk/R/walk1.png").convert_alpha()
 playerWalk_R2 = py.image.load("assets/img/sprite/walk/R/walk2.png").convert_alpha()
@@ -134,7 +125,6 @@ playerImage = playerSurf_R
 idleSurf = playerSurf_R
 idleRect = idleSurf.get_rect(midbottom= (WIDTH/2 - 3, onGround))
 
-# Obstacles.
 mobFrame_R1 = py.image.load("assets/img/sprite/mobR.png").convert_alpha()
 mobFrame_R1.set_alpha(150)
 mobFrame_R2 = py.image.load("assets/img/sprite/mobR2.png").convert_alpha()
@@ -170,11 +160,10 @@ flySurf_L = flyFrames_L[flyFramesIndex_L]
 obsRectList = []
 obsRectListL = []
 
-# Sound.
 jumpSound = py.mixer.Sound("assets/sound/jump.mp3")
 music = py.mixer.music.load("assets/sound/forest.mp3")
 py.mixer.music.play(-1)
-# Timer.
+
 obsTimer = py.USEREVENT + 1
 py.time.set_timer(obsTimer, randint(1400, 2500))
 
@@ -190,7 +179,6 @@ py.time.set_timer(mobAnimationTimer, randint(1000, 2000))
 mobAnimationTimer2 = py.USEREVENT + 5
 py.time.set_timer(mobAnimationTimer2, randint(1000, 2000))
 
-# Game Loop.
 while True:
     screen.fill((0, 0, 0))
     
@@ -205,22 +193,18 @@ while True:
                 exit()
 
         if gameActive:
-            # Set Player Jump
             if event.type == py.KEYDOWN:
                 if event.key == py.K_SPACE or event.key == py.K_UP or event.key == py.K_w:
                     if playerRect.bottom == onGround:
                         jumpSound.play()
-                        playerGravity = -20
-                        
+                        playerGravity = -20          
         else: 
-            # Score Start Counter.
             if event.type == py.KEYDOWN:
                 if event.key == py.K_RETURN:
                     gameActive = True
                     startTime = int(py.time.get_ticks()/100)
                     
         if gameActive:
-            # Obstacle Spawn Random Position.
             if event.type == obsTimer:
                 if randint(0, 2):
                     obsRectList.append(mobSurf_R.get_rect(bottomleft= (randint(800, 1100), onGround - 10)))
@@ -230,28 +214,24 @@ while True:
                     obsRectListL.append(mobSurf_L.get_rect(bottomleft= (randint(-300, -100), onGround - 10)))
                 else:
                     obsRectListL.append(flySurf_L.get_rect(bottomleft= (randint(-300, -100), 150)))
-            # Right Fly Obstacle Animation
             if event.type == flyAnimationTimer:
                 if flyFramesIndex_R == 0:
                     flyFramesIndex_R = 1
                 else:
                     flyFramesIndex_R = 0
                 flySurf_R = flyFrames_R[flyFramesIndex_R]
-            # Left Fly Obstacle Animation.
             if event.type == flyAnimationTimer2:
                 if flyFramesIndex_L == 0:
                     flyFramesIndex_L = 1
                 else:
                     flyFramesIndex_L = 0
                 flySurf_L = flyFrames_L[flyFramesIndex_L]
-            # Right Mob Obstacle Animation
             if event.type == mobAnimationTimer:
                 if mobFramesIndex_R == 0:
                     mobFramesIndex_R = 1
                 else:
                     mobFramesIndex_R = 0
                 mobSurf_R = mobFrames_R[mobFramesIndex_R]
-            # Left Mob Obstacle Animation
             if event.type == mobAnimationTimer2:
                 if mobFramesIndex_L == 0:
                     mobFramesIndex_L = 1
@@ -261,131 +241,102 @@ while True:
 
     keys = py.key.get_pressed()
 
-    # Set Player Idle Frame GameActive = 1.
     if right:
         playerImage = playerSurf_R
     elif left:
         playerImage = playerSurf_L
     
     if keys[py.K_RIGHT] or keys[py.K_d]:
-        # Set Direction Bool
         right = True
         left = False
-        # Set Player Idle Frame GameActive = 0.
         idleSurf = playerSurf_R
-        # Player Movement to Right Animation.
         playerImage = playerFrames_R[playerFramesIndex_R]
         playerFramesIndex_R = (playerFramesIndex_R + 1) % len(playerFrames_R)
-        # Speed Player Movement to Right
         playerRect.x += 7
         
     elif keys[py.K_LEFT] or keys[py.K_a]:
-        # Set Direction Bool
         left = True
         right = False
-        # Set Player Idle Frame GameActive = 0.
         idleSurf = playerSurf_L
-        # Player Movement to Left Animation.
         playerImage = playerFrames_L[playerFramesIndex_L]
         playerFramesIndex_L = (playerFramesIndex_L + 1) % len(playerFrames_L)
         playerRect.x -= 7
         
-    # Set Player Jamp Frame.
     if playerRect.bottom < onGround:
         if right:
             playerImage = playerJump_R
         if left:
             playerImage = playerJump_L
             
-    # Cancel Player Offset from Screen
     if playerRect.left < 0:
         playerRect.left = 0
     if playerRect.right > WIDTH:
         playerRect.right = WIDTH
 
     if gameActive:
-        # Apply Gravity.
-        playerGravity += 1
         playerRect.y += playerGravity
-        # Set Player Landing
         if playerRect.bottom >= onGround:
             playerRect.bottom = onGround
     
-        # Draw Player & Environment GameActive = 1.
         screen.blit(skySurf, (0, -140))
         screen.blit(playerImage, playerRect)
         screen.blit(groundSurf, (0, onGround - 25))
         screen.blit(groundSurf2, (0, onGround - 10))
         screen.blit(groundSurf2, (0, onGround + 20))
         
-        # Spawm Obstacle.
         obsRectList = obsMov(obsRectList, onGround)
         obsRectListL = obsMovL(obsRectListL, onGround)
         
-        # Player & Obstacle Collision Check
         if gameActive:
             gameActive = checkCol(playerRect, obsRectList)
         if gameActive:
             gameActive = checkCol(playerRect, obsRectListL)
         
-        # Display Score Counter
         score = displayScore()
     else:
-        # Draw Player & Environment GameActive = 0.
         screen.blit(skySurf, (0, -140))
         screen.blit(idleSurf, idleRect)
         screen.blit(groundSurf, (0, onGround - 25))
         screen.blit(groundSurf2, (0, onGround - 10))
         screen.blit(groundSurf2, (0, onGround + 20))
         
-        # Disable Obstacle.
         obsRectList.clear()
         obsRectListL.clear()
         
-        # Set Default Player Position.
         playerGravity = 0
         playerRect.bottomleft = (WIDTH/2 - 24, onGround)
         
-        # Set Intro Text.
         introSurf = overFont.render("GHOST YEETER", True, "white")
         introSurf.set_alpha(150)
         introRect = introSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 20))
         
-        # Set Start Game Menu
         playSurf = fontPlay.render("press ENTER to play", True, "white")
         playSurf.set_alpha(150)
         playRect = playSurf.get_rect(center= (WIDTH/2, HEIGHT - 30))
 
-        # High Score Check
         if score > highScore:
             highScore = score
         
-        # Set Highscore Menu
         highSoreSurf = fontPlay.render(f"HIGH SCORE: {highScore}", True, "white")
         highSoreSurf.set_alpha(150)
         highSoreRect = highSoreSurf.get_rect(center= (WIDTH/2, 125))
         highSoreRect2 = highSoreSurf.get_rect(center= (WIDTH/2, 68))
         
-        # Set Text When Game Over.
         overSurf = overFont.render("GAME OVER", True, "white")
         overSurf.set_alpha(150)
         overRect = overSurf.get_rect(center= (WIDTH/2, HEIGHT/2 - 20))
         
-        # Set Show Final Score.
         scoreMsgSurf = font.render(f'your score : {score}', True, "white")
         scoreMsgSurf.set_alpha(150)
         scoreMsgRect = scoreMsgSurf.get_rect(center= (WIDTH/2, 40))
         
-        # Set How to Play Again.
         playSurf2 = fontPlay.render("press ENTER to play again", True, "white")
         playSurf2.set_alpha(150)
         playRect2 = playSurf2.get_rect(center= (WIDTH/2, HEIGHT - 30))
         
         if score == 0:
-            # Display when Intro
             introScreen()
         else:
-            # Display when Game Over
             gameOverScreen()
             
     py.display.update()

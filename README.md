@@ -1,5 +1,4 @@
 # Ghost Yeeter
-Simple game created with pygame module
 
 ## Credits
 - Sprites by [DarkSB24](https://www.spriters-resource.com/custom_edited/mariocustoms/sheet/17687/) <br>
